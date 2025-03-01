@@ -41,8 +41,40 @@ class HashingProblems {
          * returning 0.0/0.0 IS correct (which would return a non-number).
          */
 
-         return 0.0 / 0.0;
-  }
+
+        // Initialize variable to track total value
+        int totalVal = 0;
+
+        // Initialize variable to track number of valid keys
+        int validKeys = 0;
+
+        // Loop through array
+        for (int i = 0; i < array.length; i++) {
+
+            // Check if map key also exists in the array
+            if (map.containsKey(array[i])) {
+
+                // Add value from map to toal value
+                totalVal += map.get(array[i]);
+
+                // Increment number of valid keys
+                validKeys++;
+
+            }
+
+        }
+
+        // If no valid keys were found, return non-numer
+        if (validKeys == 0) {
+            return 0.0 / 0.0;
+
+        // If at least one value key was found, calculate average of value casted as a double
+        } else {
+
+            return (double) totalVal / validKeys;
+        }
+
+    }
 
 
     /*
@@ -52,65 +84,94 @@ class HashingProblems {
      * values of the corresponding keys that are odd.
      */
 
-  public ArrayList<String> odd(HashMap<Integer, String> map) {
+    public ArrayList<String> odd(HashMap<Integer, String> map) {
     
-      ArrayList<String> result = new ArrayList<>();
+        ArrayList<String> result = new ArrayList<>();
 
-      /*
-       * ADD YOUR CODE HERE
-       *
-       * Hint: Consider iterating over the HashMap using the keySet method.
-       */
+        /*
+        * ADD YOUR CODE HERE
+        *
+        * Hint: Consider iterating over the HashMap using the keySet method.
+        */
+
+        // Loop over each key in the map using keySet
+        for (Integer key : map.keySet()) {
+
+            // If key is odd, add the value from key to the result list
+            if (key % 2 != 0) {
+                result.add(map.get(key));
+            }
+
+        }
+
+        // Return list of values that correspond with odd keys
+        return result;
+    }
 
 
-      return result;
-  }
+    /*
+    * Method twoSums()
+    *
+    * You ARE to solve this problem in time complexity O(n). The submittals will be spot checked.
+    *
+    * Problem statement:
+    * Suppose you are given an integer array containing the values [1,4,5,7,8,9] along with the
+    * value k=4, where k is the difference between two array elements. How many times does k appear
+    * in that list?
+    *
+    * With the above numbers, it will be three times:
+    *    k = 4
+    *    (5 - 1) = k
+    *    (8 - 4) = k
+    *    (9 - 5) = k
+    *    k appears 3 times.
+    *
+    * All combinations must be considered. But, any other combination of the numbers in the array
+    * results in a difference value that is not equal to k (k=4 in this case).
+    *
+    * This can be solved using nested for-loops, checking all combinations of the values in the array.
+    * But the time complexity would be O(n^2).
+    *
+    * In order to solve this problem in O(n) complexity, utilize a HashMap (or a HashSet).
+    *
+    * You are to solve this using a HashMap (or you can use a HashSet, which is implemented
+    * using HashMap). To solve this, you should populate the HashMap (or HashSet) based on
+    * the array (this will be complexity time on the order of 'n'). After populating the HashMap,
+    * consider a for-loop that does a lookup (probe) of the HashMap (or HashSet) on each iteration
+    * of the loop. This will also have a complexity on the order of 'n', as the hashing probes are a
+    * constant time complexity (after removing any constant based on collisions).
+    *
+    * This will result in a time complexity of O(n) for the overall method.
+    *
+    * NOTE: Solving using a HashMap or HashSet is fine (either is okay). HashSet may be easier to code?
+    */
 
+    public int twoSums(int[] numbers, int k) {
 
-  /*
-   * Method twoSums()
-   *
-   * You ARE to solve this problem in time complexity O(n). The submittals will be spot checked.
-   *
-   * Problem statement:
-   * Suppose you are given an integer array containing the values [1,4,5,7,8,9] along with the
-   * value k=4, where k is the difference between two array elements. How many times does k appear
-   * in that list?
-   *
-   * With the above numbers, it will be three times:
-   *    k = 4
-   *    (5 - 1) = k
-   *    (8 - 4) = k
-   *    (9 - 5) = k
-   *    k appears 3 times.
-   *
-   * All combinations must be considered. But, any other combination of the numbers in the array
-   * results in a difference value that is not equal to k (k=4 in this case).
-   *
-   * This can be solved using nested for-loops, checking all combinations of the values in the array.
-   * But the time complexity would be O(n^2).
-   *
-   * In order to solve this problem in O(n) complexity, utilize a HashMap (or a HashSet).
-   *
-   * You are two solve this using a HashMap (or you can use a HashSet, which is implemented
-   * using HashMap). To solve this, you should populate the HashMap (or HashSet) based on
-   * the array (this will be complexity time on the order of 'n'). After populating the HashMap,
-   * consider a for-loop that does a lookup (probe) of the HashMap (or HashSet) on each iteration
-   * of the loop. This will also have a complexity on the order of 'n', as the hashing probes are a
-   * constant time complexity (after removing any constant based on collisions).
-   *
-   * This will result in a time complexity of O(n) for the overall method.
-   *
-   * NOTE: Solving using a HashMap or HashSet is fine (either is okay). HashSet may be easier to code?
-   */
+        /*
+         * ADD YOUR CODE HERE
+         */
 
-  public int twoSums(int[] numbers, int k) {
+        // Initialize new hash set to store unique numbers
+        Set<Integer> set = new HashSet<>();
 
-      /*
-       * ADD YOUR CODE HERE
-       */
+        // Initialize variable to track count
+        int count = 0;
 
-      return -1;
-  }
+        // Loop through each element in numbers array
+        for (int num : numbers) {
+
+            // Increment counter if the complement (num - k) is already in the set of unique numbers
+            if (set.contains(num - k)) {
+                count++;
+            }
+
+            // Add the current number to the set
+            set.add(num);
+        }
+    
+        // Return the total count of valid pairs
+        return count;
+    }
 
 } /* end class HashingProblems */
