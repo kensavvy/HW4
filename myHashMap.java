@@ -1,5 +1,5 @@
 /*
- * *** YOUR NAME GOES HERE / YOUR SECTION NUMBER ***
+ * *** Kendall Savino / COMP 272 002 ***
  *
  * This hashMap object represents an over simplification of Java's implementation of HashMap within
  * Java's Collection Framework Library. You are to complete the following methods:
@@ -224,13 +224,52 @@ class myHashMap<K,V> {
         /*
          * ADD YOUR CODE HERE
          *
-         * Review the code in the whole object to understand teh data structures layout.
+         * Review the code in the whole object to understand the data structures layout.
          * Additionally, review the method put() for inserting a new Key / Value pair into
          * the HashMap. This method will do the opposite by removing an element. Do see
          * the return value discussion in this method's prologue to make sure the correct
          * return value is returned the invoking function based on the remove outcome.
          */
 
+         // Initialize index to be the bucket index for the key
+         int index = getBucketIndex(key);
+
+         // Initialize head pointer to first hashnode in bucket
+         HashNode<K, V> head = bucket.get(index);
+ 
+         // Initialize previous pointer to null
+         HashNode<K, V> prev = null;
+ 
+        // Loop while guarding against nulls
+         while (head != null) {
+
+            // Check if current key matches key to be removed
+            if (head.key.equals(key)) {
+
+                // If first node, remove by updating index to the next node
+                if (prev == null) {
+                    bucket.set(index, head.next); 
+
+                // If not first, remove node by pointing previous cursor to the next node
+                } else {
+                    prev.next = head.next; 
+                }
+
+                // Decrease size of map after successfully removing node
+                size--;
+
+                // Return value associated with removed key
+                return head.value;
+
+            }
+
+            // If the current key doesn't match key to be removed, update pointers and continue searching
+            prev = head;
+            head = head.next;
+
+        }
+
+        // If there is no match, return key as null
         return null;
     }
 
@@ -406,7 +445,37 @@ class myHashMap<K,V> {
          * replace (see method's prologue above).
          */
 
-        return val;
+        
+        // Initialize index to be the bucket index for the key
+        int index = getBucketIndex(key);
+
+        // Initialize head pointer to first hashnode in bucket
+        HashNode<K, V> head = bucket.get(index);
+        
+        // Loop while guarding against nulls
+        while (head != null) {
+
+            // Check if current key matches key paired with the value to be replaced
+            if (head.key.equals(key)) {
+
+                // Initialize old value to current node if match is found
+                V oldValue = head.value;
+
+                // Replace the value of current node with paramter val
+                head.value = val;
+
+                // Return the old value
+                return oldValue;
+
+            }
+
+            // If match is not found, update pointer to continue searching
+            head = head.next;
+        }
+         
+        // If no match is found, return the key as null
+        return null;
+
     }
 
     
@@ -434,7 +503,44 @@ class myHashMap<K,V> {
          * value 'oldval', and is so, it SHOULD call replace(K, V) for code reuse.
          */
 
-        return false;
+        // Initialize index to be the bucket index for the key
+        int index = getBucketIndex(key);
+
+        // Initialize head pointer to first hashnode in bucket
+        HashNode<K, V> head = bucket.get(index);
+         
+        // Initialize boolean variable to track status of replacement
+        boolean isReplaced = false;
+
+        // Loop which guarding against nulls
+        while (head != null) {
+
+            // Check if current key matches the key to be replaced
+            if (head.key.equals(key)) {
+
+                // If current value matches old value
+                if (head.value.equals(oldVal)) {
+
+                    // Replace current value with the new value
+                    head.value = newVal;
+
+                    // Update when successful replacement occurs
+                    isReplaced = true;
+
+                    return isReplaced;
+
+                }
+
+                // If current value does not match old value, boolean will return false
+                return isReplaced;
+            }
+
+            // If current key does not match key, update pointer to next node 
+            head = head.next;
+        }
+         
+        // If no match is found, boolean will return false
+        return isReplaced;
     }
 
 
